@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+  <title>New::Crud</title>
+</head>
+<body>
+  <div>
+    <h1>New User</h1>
+  </div>
+  <form action="#" th:action="@{/create}"  th:object="${user}" method="post">
+    <label for="name">Name</label>
+    <div>
+      <input type="text" name="name" id="name" placeholder="Your name"/>
+      <p typeth:if="${#fields.hasErrors('name')}" th:errors="*{name}"/>
+    </div>
+    <label for="password">Password</label>
+    <div>
+      <input type="password" name="password" id="password" placeholder="Your password"/>
+      <p typeth:if="${#fields.hasErrors('password')}" th:errors="*{password}"/>
+    </div>
+    <label for="email">Email</label>
+    <div>
+      <input type="email" name="email" id="email" placeholder="Your email"/>
+      <p typeth:if="${#fields.hasErrors('email')}" th:errors="*{email}"/>
+    </div>
+    <div>
+      <button type="submit">Create</button>
+    </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/hmtl; charset=UTF-8" />
+<title>List::Crud</title>
+</head>
+<body>
+    <div class="panel panel-info">
+        <div class="panel-heading"><h3>User List</h3></div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Password</th>
+                    <th>Email</th>
+                <tr>
+            <thead>
+            <tbody>
+                <tr data-th-each="user : ${users}">
+                    <td data-th-text="${user.id}"></td>
+                    <td data-th-text="${user.name}"></td>
+                    <td data-th-text="${user.password}"></td> 
+                    <td data-th-text="${user.email}"></td>
+                    <td>
+                    	<a th:href="@{'/edit/{id}'(id=${user.id})}">
+                    		<span class="fa-stack">
+                    		edit
+                    		</span>
+                    	</a>
+                    </td>
+                    <td>
+                    	<a th:href="@{'/delete/{id}'(id=${user.id})}">
+                    		<span class="fa-stack">
+                    		delete
+                    		</span>
+                    	</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <br/>
+    <a class="btn btn-info" href="/delete/all">DeleteAll</a>
+    <br/>
+    <a class="btn btn-info" href="/new">New User</a>
+</body>
+</html>
