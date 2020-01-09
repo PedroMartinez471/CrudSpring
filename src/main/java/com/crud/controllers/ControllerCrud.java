@@ -1,5 +1,4 @@
 package com.crud.controllers;
-//package com.crud;
 
 import com.crud.models.User;
 import com.crud.models.UserCrud;
@@ -21,66 +20,66 @@ public class ControllerCrud {
 
     @Autowired
     private UserCrud uc;
-    
-	@GetMapping("/")
-    public String UsersList(ModelMap mp){
+
+    @GetMapping("/")
+    public String usersList(ModelMap mp){
         mp.put("users", uc.findAll());
-    return "crud/list";
+        return "users";
     }
-	
-	@GetMapping("/new")
-    public String newUser(ModelMap mp){
-		mp.put("user", new User());
-        return "crud/new";
+
+    @GetMapping("/register")
+    public String register(ModelMap mp) {
+        mp.put("user", new User());
+        return "register";
     }
-	
-	@PostMapping("/new")
-	public String create(@Valid User user,
-    	BindingResult bindingResult, ModelMap mp){
-		if(bindingResult.hasErrors()){
-	        return "crud/new";
-	    }else{
-	        uc.save(user);
-	        mp.put("users", uc.findAll());
-	        return "crud/list";
-	    }
+    @PostMapping("/register")
+    public String registerUser(@Valid User user, BindingResult bindingResult, ModelMap mp) {
+        if (bindingResult.hasErrors())  return "crud/new";
+        uc.save(user);
+        mp.put("user", user);
+        return "user";
     }
-	
-	@GetMapping("/edit/{id}")
-    public String edit(@PathVariable("id") long id, ModelMap mp){
-        mp.put("user", uc.findById(id));
-        return "crud/edit";
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
     }
-     
-	@PostMapping("/update")
+    @PostMapping("/login")
+    public String loginUser(@Valid User user, BindingResult bindingResult, ModelMap mp) {
+        if(bindingResult.hasErrors()) return "crud/new";
+        User userEntity = uc.findUserByName(user.getName());
+        if (!userEntity.getPassword().equals(user.getPassword())) return "login";
+        mp.put("user", userEntity);
+        return "user";
+    }
+
+    @GetMapping("/user/edit/{id}")
+    public String editUser(@PathVariable("id") long id, ModelMap mp) {
+        User user = uc.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user id: " + id));
+        mp.put("user", user);
+        return "edit";
+    }
+	@PostMapping("/user/edit")
     public String edit(@Valid User user, BindingResult bindingResult, ModelMap mp){
 		if (bindingResult.hasErrors()) {
             mp.put("users", uc.findAll());
-            return "crud/list";
+            return "users";
         }
         User userEntity = uc.findById(user.getId()).orElseThrow(() -> new IllegalArgumentException("Invalid user id: " + user.getId()));
         userEntity.setName(user.getName());
         userEntity.setPassword(user.getPassword());
         userEntity.setEmail(user.getEmail());
         uc.save(userEntity);
-        mp.put("users", uc.findAll());
-        return "crud/list";
-    }
-	
-	
-	@GetMapping("/delete/all")
-    public String delete(ModelMap mp){
-        uc.deleteAll();
-        mp.put("users", uc.findAll());
-        return "crud/list";
+        mp.put("user", userEntity);
+        return "user";
     }
 
-	@GetMapping("/delete/{id}")
+	@GetMapping("/user/delete/{id}")
     public String deleteById(@PathVariable("id") Long id, ModelMap mp){
 		User user  = uc.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user id: " + id));
 		uc.delete(user);
         mp.put("users", uc.findAll());
-        return "crud/list";
+        return "users";
     }
 
 }
