@@ -1,21 +1,18 @@
 package com.crud.controllers;
 //package com.crud;
-import javax.validation.Valid;
 
+import com.crud.models.User;
+import com.crud.models.UserCrud;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.crud.models.User;
-import com.crud.models.UserCrud;
+import javax.validation.Valid;
 
 @Controller
 @SpringBootApplication
@@ -37,14 +34,13 @@ public class ControllerCrud {
         return "crud/new";
     }
 	
-	@PostMapping("/create")
+	@PostMapping("/new")
 	public String create(@Valid User user,
     	BindingResult bindingResult, ModelMap mp){
 		if(bindingResult.hasErrors()){
 	        return "crud/new";
 	    }else{
 	        uc.save(user);
-	        // mp.put("user", user);
 	        mp.put("users", uc.findAll());
 	        return "crud/list";
 	    }
@@ -67,7 +63,7 @@ public class ControllerCrud {
         userEntity.setPassword(user.getPassword());
         userEntity.setEmail(user.getEmail());
         uc.save(userEntity);
-        mp.put("users", userEntity);
+        mp.put("users", uc.findAll());
         return "crud/list";
     }
 	
