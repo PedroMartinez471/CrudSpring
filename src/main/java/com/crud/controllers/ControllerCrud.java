@@ -21,7 +21,7 @@ public class ControllerCrud {
     @Autowired
     private UserCrud uc;
 
-    @GetMapping("/")
+    @GetMapping({ "/", "/users" })
     public String usersList(ModelMap mp){
         mp.put("users", uc.findAll());
         return "users";
@@ -34,7 +34,7 @@ public class ControllerCrud {
     }
     @PostMapping("/register")
     public String registerUser(@Valid User user, BindingResult bindingResult, ModelMap mp) {
-        if (bindingResult.hasErrors())  return "crud/new";
+        if (bindingResult.hasErrors())  return "register";
         uc.save(user);
         mp.put("user", user);
         return "user";
@@ -46,7 +46,10 @@ public class ControllerCrud {
     }
     @PostMapping("/login")
     public String loginUser(@Valid User user, BindingResult bindingResult, ModelMap mp) {
-        if(bindingResult.hasErrors()) return "crud/new";
+        if(bindingResult.hasErrors()) {
+            mp.put("errors", "Invalid username or password!");
+            return "login";
+        }
         User userEntity = uc.findUserByName(user.getName());
         if (!userEntity.getPassword().equals(user.getPassword())) return "login";
         mp.put("user", userEntity);
