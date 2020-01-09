@@ -6,29 +6,38 @@
 </head>
 </head>
 <body>
-  <div>
-    <h1>Edit User</h1>
-  </div>
- 	<form action="#" th:action="@{/update}"  th:object="${user}" method="post">
-	    <input th:field="*{id}" type="text" name="id" id="id" hidden="true"/>
-	    <label for="name">Name</label>
-	    <div>
-	      <input th:field="*{name}" type="text" name="name" id="name" placeholder="Your name"/>
-	      <p typeth:if="${#fields.hasErrors('name')}" th:errors="*{name}"/>
-	    </div>
-	    <label for="password">Password</label>
-	    <div>
-	      <input type="password" name="password" id="password" placeholder="Your password"/>
-	      <p typeth:if="${#fields.hasErrors('password')}" th:errors="*{password}"/>
-	    </div>
-	    <label for="email">Email</label>
-	    <div>
-	      <input th:field="*{email}" type="email" name="email" id="email" placeholder="Your email"/>
-	      <p typeth:if="${#fields.hasErrors('email')}" th:errors="*{email}"/>
-	    </div>
-	    <div>
-	      <button type="submit">Update</button>
-	    </div>
-	</form>
-</body>
+  <div class="container">
+    <div class="row">
+      <div class=" col-3 mx-auto">
+        <div class="card card-signin my-5">
+          <div class="card-body">
+            <h5 class="card-title text-center">EDIT USER</h5>
+            <div class="form-label-group">
+           	<form action="#" th:action="@{/update}"  th:object="${user}" method="post">
+          	    <input th:field="*{id}" type="text" name="id" id="id" hidden="true"/>
+          	    <label for="name">Name</label>
+                <br>
+          	      <input th:field="*{name}" type="text" name="name" id="name" placeholder="Your name"/>
+          	      <p typeth:if="${#fields.hasErrors('name')}" th:errors="*{name}"/>
+                </div>
+                <div class="form-label-group">
+                <label for="password">Password</label>
+                <br>
+          	      <input type="password" name="password" id="password" placeholder="Your password"/>
+          	      <p typeth:if="${#fields.hasErrors('password')}" th:errors="*{password}"/>
+                </div>
+                <div class="form-label-group">
+                <label for="email">Email</label>
+                <br>
+          	      <input th:field="*{email}" type="email" name="email" id="email" placeholder="Your email"/>
+          	      <p typeth:if="${#fields.hasErrors('email')}" th:errors="*{email}"/>
+                  </div>
+          	      <button class="btn btn-lg btn-primary btn-block" type="submit">Update</button>
+            	</form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>
