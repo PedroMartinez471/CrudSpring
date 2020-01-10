@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org" xmlns:typeth="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>New::Crud</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class=" col-3 mx-auto">
+          <div class="card card-signin my-5">
+            <div class="card-body">
+              <h5 class="card-title text-center">NEW USER</h5>
+              <div class="form-label-group">
+              <form action="#" th:action="@{/new}"  th:object="${user}" method="post">
+                <label for="name">Name</label>
+                <br>
+                  <input type="text" name="name" id="name" placeholder="Your name"/>
+                  <p typeth:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+                </div>
+                <div class="form-label-group">
+                <label for="password">Password</label>
+                <br>
+                  <input type="password" name="password" id="password" placeholder="Your password"/>
+                  <p typeth:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+                </div>
+                <div class="form-label-group">
+                <label for="email">Email</label>
+                <br>
+                  <input type="email" name="email" id="email" placeholder="Your email"/>
+                  <p typeth:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+                    </div>
+                  <button  class="btn btn-lg btn-primary btn-block" type="submit">Create</button>
+                </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

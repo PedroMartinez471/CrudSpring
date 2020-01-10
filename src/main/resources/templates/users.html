@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="Content-Type" content="text/hmtl; charset=UTF-8" />
+  <title>List::Crud</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="container pt-4 ">
+      <div class="panel panel-info">
+          <div class="panel-heading"><h3>User List</h3></div>
+          <table class="table table-striped">
+              <thead>
+                  <tr>
+                      <th>Id</th>
+                      <th>Name</th>
+                      <th>Password</th>
+                      <th>Email</th>
+                  <tr>
+              <thead>
+              <tbody>
+                  <tr data-th-each="user : ${users}">
+                      <td data-th-text="${user.id}"></td>
+                      <td data-th-text="${user.name}"></td>
+                      <td data-th-text="${user.password}"></td>
+                      <td data-th-text="${user.email}"></td>
+                      <td>
+                      	<a th:href="@{'/edit/{id}'(id=${user.id})}">
+                      		<span class="btn btn-info pl-4 pr-4">
+                        		Edit
+                      		</span>
+                      	</a>
+                      	<a th:href="@{'/delete/{id}'(id=${user.id})}">
+                      		<span class="btn btn-danger  pl-4 pr-4">
+                        		Delete
+                      		</span>
+                      	</a>
+                      </td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+      <br/>
+      <a class="btn btn-danger" href="/delete/all">Delete All</a>
+      <a class="btn btn-info" href="/new">New User</a>
+    </div>
+  </body>
+</html>
