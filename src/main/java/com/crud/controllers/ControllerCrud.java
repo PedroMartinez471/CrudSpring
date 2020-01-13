@@ -8,8 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 
@@ -37,29 +37,19 @@ public class ControllerCrud {
         if (bindingResult.hasErrors())  return "register";
         uc.save(user);
         mp.put("user", user);
-        return "user";
+        return "redirect:/login";
     }
 
-    @GetMapping("/login")
+    @RequestMapping("/login")
     public String login() {
         return "login";
     }
-    @PostMapping("/login")
-    public String loginUser(@Valid User user, BindingResult bindingResult, ModelMap mp) {
-        if(bindingResult.hasErrors()) {
-            mp.put("errors", "Invalid username or password!");
-            return "login";
-        }
-        User userEntity = uc.findUserByName(user.getName());
-        if (!userEntity.getPassword().equals(user.getPassword())) return "login";
-        mp.put("user", userEntity);
-        return "user";
-    }
 
-    @GetMapping("/user/edit/{id}")
-    public String editUser(@PathVariable("id") long id, ModelMap mp) {
-        User user = uc.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user id: " + id));
-        mp.put("user", user);
+    @GetMapping("/user/edit")
+    public String editUser(@Valid User user, ModelMap mp) {
+        Long id = user.getId();
+        User userEntity = uc.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user id: " + id));
+        mp.put("user", userEntity);
         return "edit";
     }
 	@PostMapping("/user/edit")
@@ -68,8 +58,9 @@ public class ControllerCrud {
             mp.put("users", uc.findAll());
             return "users";
         }
-        User userEntity = uc.findById(user.getId()).orElseThrow(() -> new IllegalArgumentException("Invalid user id: " + user.getId()));
-        userEntity.setName(user.getName());
+        Long id = user.getId();
+        User userEntity = uc.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user id: " + id));
+        userEntity.setUsername(user.getUsername());
         userEntity.setPassword(user.getPassword());
         userEntity.setEmail(user.getEmail());
         uc.save(userEntity);
@@ -77,10 +68,11 @@ public class ControllerCrud {
         return "user";
     }
 
-	@GetMapping("/user/delete/{id}")
-    public String deleteById(@PathVariable("id") Long id, ModelMap mp){
-		User user  = uc.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user id: " + id));
-		uc.delete(user);
+	@GetMapping("/user/delete")
+    public String deleteById(@Valid User user, ModelMap mp){
+        Long id = user.getId();
+		User userEntity  = uc.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user id: " + id));
+		uc.delete(userEntity);
         mp.put("users", uc.findAll());
         return "users";
     }

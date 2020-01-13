@@ -1,9 +1,6 @@
 package com.crud.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
@@ -17,7 +14,8 @@ public class User {
     private long id;
     @NotNull
     @Length(min=5, max=24)
-    private String name;
+    @Column(name="name")
+    private String username;
     @NotNull
     @Length(min=4, max=100)
     private String password;
@@ -29,8 +27,8 @@ public class User {
         super();
     }
  
-    public User(String name, String password, String email) {
-        this.name = name;
+    public User(String username, String password, String email) {
+        this.username = username;
         this.password = password;
         this.email = email;
     }
@@ -43,12 +41,12 @@ public class User {
         this.id = id;
     }*/
  
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
  
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String name) {
+        this.username = name;
     }
  
     public String getPassword() {

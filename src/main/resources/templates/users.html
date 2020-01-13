@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
   <head>
   <meta http-equiv="Content-Type" content="text/hmtl; charset=UTF-8" />
   <title>List::Crud</title>
@@ -21,7 +21,7 @@
               <tbody>
                   <tr data-th-each="user : ${users}">
                       <td data-th-text="${user.id}"></td>
-                      <td data-th-text="${user.name}"></td>
+                      <td data-th-text="${user.username}"></td>
                       <td data-th-text="${user.password}"></td>
                       <td data-th-text="${user.email}"></td>
                       <td>
