@@ -12,26 +12,24 @@
             <div class="card-body">
               <h5 class="card-title text-center">NEW USER</h5>
               <div class="form-label-group">
-              <form action="#" th:action="@{/new}"  th:object="${user}" method="post">
-                <label for="name">Name</label>
-                <br>
-                  <input type="text" name="name" id="name" placeholder="Your name"/>
-                  <p typeth:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+              <form action="#" th:action="@{/register}" th:object="${user}" method="post">
+                <div class="form-label-group">
+                  <label for="username">Name</label>
+                  <br>
+                  <input type="text" name="username" id="username" placeholder="Your username"/>
                 </div>
                 <div class="form-label-group">
-                <label for="password">Password</label>
-                <br>
-                  <input type="password" name="password" id="password" placeholder="Your password"/>
-                  <p typeth:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+                  <label for="password">Password</label>
+                  <br>
+                    <input type="password" name="password" id="password" placeholder="Your password"/>
                 </div>
                 <div class="form-label-group">
-                <label for="email">Email</label>
-                <br>
+                  <label for="email">Email</label>
+                  <br>
                   <input type="email" name="email" id="email" placeholder="Your email"/>
-                  <p typeth:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
-                    </div>
-                  <button  class="btn btn-lg btn-primary btn-block" type="submit">Create</button>
-                </form>
+                </div>
+                <button  class="btn btn-lg btn-primary btn-block" type="submit">Create</button>
+              </form>
             </div>
           </div>
         </div>

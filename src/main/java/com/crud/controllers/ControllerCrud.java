@@ -1,7 +1,7 @@
 package com.crud.controllers;
 
 import com.crud.models.User;
-import com.crud.models.UserCrud;
+import com.crud.models.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
@@ -19,7 +19,7 @@ public class ControllerCrud {
 	
 
     @Autowired
-    private UserCrud uc;
+    private UserRepository uc;
 
     @GetMapping({ "/", "/users" })
     public String usersList(ModelMap mp){
@@ -34,10 +34,10 @@ public class ControllerCrud {
     }
     @PostMapping("/register")
     public String registerUser(@Valid User user, BindingResult bindingResult, ModelMap mp) {
-        if (bindingResult.hasErrors())  return "register";
+        if (bindingResult.hasErrors()) return "register";
         uc.save(user);
         mp.put("user", user);
-        return "redirect:/login";
+        return "redirect:/";
     }
 
     @RequestMapping("/login")
@@ -45,14 +45,18 @@ public class ControllerCrud {
         return "login";
     }
 
-    @GetMapping("/user/edit")
+    @GetMapping("/profile")
+    public String profileUser() {
+        return "profile";
+    }
+    @GetMapping("/profile/edit")
     public String editUser(@Valid User user, ModelMap mp) {
         Long id = user.getId();
         User userEntity = uc.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user id: " + id));
         mp.put("user", userEntity);
         return "edit";
     }
-	@PostMapping("/user/edit")
+	@PostMapping("/profile/edit")
     public String edit(@Valid User user, BindingResult bindingResult, ModelMap mp){
 		if (bindingResult.hasErrors()) {
             mp.put("users", uc.findAll());
@@ -67,8 +71,7 @@ public class ControllerCrud {
         mp.put("user", userEntity);
         return "user";
     }
-
-	@GetMapping("/user/delete")
+	@GetMapping("/profile/delete")
     public String deleteById(@Valid User user, ModelMap mp){
         Long id = user.getId();
 		User userEntity  = uc.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user id: " + id));

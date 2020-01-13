@@ -9,13 +9,12 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth)
-            throws Exception {
-        auth.
-                jdbcAuthentication()
+    /*@Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+            auth
+                .jdbcAuthentication()
                 .usersByUsernameQuery("select name, password, enabled from user where name=?");
-    }
+    }*/
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -28,7 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/img/**",
                 "/webjars/**").permitAll()
             .antMatchers("/user/**").authenticated()
-            .antMatchers("/", "/users").authenticated()
+            .antMatchers("/", "/users").permitAll()//.authenticated()
             .   and()
             .formLogin()
                 .loginPage("/login")
@@ -42,7 +41,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/login")
                 .permitAll()
                 .and()
-            .csrf().disable();
+            .csrf().disable()
+            .httpBasic();
     }
 
 }
