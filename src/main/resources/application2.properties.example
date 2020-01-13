@@ -1,0 +1,11 @@
+spring.datasource.url=jdbc:mysql: #DATHBASE PATH
+spring.datasource.username= USERNAME
+spring.datasource.password= PASSWORD
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.jpa.hibernate.ddl-auto=none
+spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect
+spring.jpa.generate-ddl=false
+spring.jpa.properties.hibernate.hbm2ddl.auto=none
+server.port=9090
+server.error.whitelabel.enabled=false
+spring.thymeleaf.cache=false
