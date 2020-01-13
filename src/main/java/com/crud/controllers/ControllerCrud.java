@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 
@@ -40,8 +41,10 @@ public class ControllerCrud {
         return "redirect:/";
     }
 
-    @RequestMapping("/login")
-    public String login() {
+    @GetMapping("/login")
+    public String login(@RequestParam(value = "error", required = false) String error, @RequestParam(value = "logout", required = false) String logout, ModelMap mp) {
+        if (error != null) mp.put("error", "Invalid username and password!");
+        if (logout != null) mp.put("message", "You've been logged out successfully.");
         return "login";
     }
 
