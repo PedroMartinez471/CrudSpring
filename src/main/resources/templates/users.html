@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
   <head>
   <meta http-equiv="Content-Type" content="text/hmtl; charset=UTF-8" />
-  <title>List::Crud</title>
+  <title>User List</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   </head>
   <body>
@@ -12,37 +12,50 @@
           <table class="table table-striped">
               <thead>
                   <tr>
-                      <th>Id</th>
                       <th>Name</th>
-                      <th>Password</th>
                       <th>Email</th>
                   <tr>
               <thead>
               <tbody>
                   <tr data-th-each="user : ${users}">
-                      <td data-th-text="${user.id}"></td>
                       <td data-th-text="${user.username}"></td>
-                      <td data-th-text="${user.password}"></td>
                       <td data-th-text="${user.email}"></td>
-                      <td>
-                      	<a th:href="@{'/edit/{id}'(id=${user.id})}">
+                      <td th:if="${user.username} == ${auth_username}">
+                      	<a th:href="@{/user/edit/}">
                       		<span class="btn btn-info pl-4 pr-4">
                         		Edit
                       		</span>
                       	</a>
-                      	<a th:href="@{'/delete/{id}'(id=${user.id})}">
+                      	<a th:href="@{/user/delete/me}">
                       		<span class="btn btn-danger  pl-4 pr-4">
                         		Delete
                       		</span>
                       	</a>
+                          <a th:href="@{/user/me}">
+                            <span class="btn btn-link pl-4 pr-4">
+                                Visit
+                            </span>
+                          </a>
+                      </td>
+                      <td th:if="${user.username} != ${auth_username}">
+                          <a th:href="@{'/user/{username}'(username=${user.username})}">
+                      		<span class="btn btn-info pl-4 pr-4">
+                        		Visit
+                      		</span>
+                          </a>
                       </td>
                   </tr>
               </tbody>
           </table>
       </div>
       <br/>
-      <a class="btn btn-danger" href="/delete/all">Delete All</a>
-      <a class="btn btn-info" href="/new">New User</a>
+        <div th:if="!${#request.userPrincipal}">
+            <a class="btn btn-link" th:href="@{/login}">Login</a>
+            <a class="btn btn-info" th:href="@{/register}">Register</a>
+        </div>
+        <div th:if="${#request.userPrincipal}">
+            <a class="btn btn-link" th:href="@{/logout}">Logout</a>
+        </div>
     </div>
   </body>
 </html>

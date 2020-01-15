@@ -1,25 +1,24 @@
 package com.crud.models;
 
+import com.fasterxml.jackson.databind.jsonschema.JsonSerializableSchema;
+import org.hibernate.validator.constraints.Length;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.Length;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.Collection;
-import java.util.HashSet;
-
+@JsonSerializableSchema
 @Entity
-public class User implements UserDetails {
+@Table(name = "User")
+public class User {
  
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @NotNull
     @Length(min=5, max=24)
-    @Column(name="name")
+    @Column(name="name", unique = true)
     private String username;
     @NotNull
     @Length(min=4, max=100)
@@ -27,22 +26,10 @@ public class User implements UserDetails {
     @NotNull
     @Email
     private String email;
- 
-    public User() {
-        super();
-    }
- 
-    public User(String username, String password, String email) {
-        this.username = username;
-        this.password = password;
-        this.email = email;
-    }
- 
+
     public long getId() {
         return id;
     }
- 
-    private void setId(long id) { this.id = id; }
  
     public String getUsername() {
         return username;
@@ -57,8 +44,10 @@ public class User implements UserDetails {
     }
  
     public void setPassword(String password) {
-        this.password = password;
+        this.password = (new BCryptPasswordEncoder(4)).encode(password);
     }
+
+    public void setPassWithoutEncrypt(String password) { this.password = password; }
  
     public String getEmail() {
         return email;
@@ -66,31 +55,6 @@ public class User implements UserDetails {
  
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return new HashSet<>();
     }
 
 }
