@@ -94,7 +94,7 @@ public class ControllerCrud {
         Long id = authUser.getId();
 		User userEntity  = uc.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user id: " + id));
 		uc.delete(userEntity);
-        return "redirect:/";
+        return "redirect:/logout";
     }
 
 }
